@@ -1,23 +1,25 @@
-module Market () where
+module Market (Bar, Ticker, Price, Quantity, priceFromRat, openingPrice, closingPrice, maxPrice, minPrice) where
+import Data.Fixed 
 
 type Timestamp = Integer
 
 type CompanyName = String
 
-type Price = Float
+type Quantity = Integer
 
-data DailyTicker = DailyTicker
+type Ticker = String
+
+newtype Price = Price Centi deriving (Eq, Ord, Num)
+instance Show Price where show (Price p) = "$" <> show p
+
+priceFromRat :: Rational -> Price
+priceFromRat = Price . fromRational
+
+data Bar = Bar
   { dayTimestamp :: Integer,
     closingPrice :: Price,
     openingPrice :: Price,
+    maxPrice :: Price,
+    minPrice :: Price,
     name :: CompanyName
   }
-
-data Ticker = Ticker [DailyTicker]
-
-data Market = Market [Ticker]
-
-dayProfit :: Ticker -> [Float]
-dayProfit (Ticker []) = []
-dayProfit (Ticker (s : rest)) =
-  [((closingPrice s) - (openingPrice s)) / openingPrice s] ++ dayProfit (Ticker rest)
