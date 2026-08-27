@@ -1,6 +1,5 @@
-module Order (Order, OrderType, Side, Fill, executeOrder, filledPrice) where 
-import Market ( Ticker, Price, Bar(openingPrice), Quantity, maxPrice, minPrice) 
-
+module Backtest.Order (Order, OrderType, Side, Fill, executeOrder, filledPrice) where 
+import Backtest.Market ( Ticker, Price, Bar(openingPrice), Quantity, maxPrice, minPrice)
 
 data Side = Buy | Sell deriving (Eq, Show)
 
@@ -17,12 +16,14 @@ data Order = Order {
     side        :: Side,
     ticker      :: Ticker,
     quantity    :: Quantity
-    } deriving (Eq, Show)
+    } deriving (Show)
 
 data Fill = Fill { filledPrice :: Price }
 
 executeOrder :: Bar -> Order -> Maybe Fill
-executeOrder bar order = orderLogic bar (side order) (orderType order)
+executeOrder bar order = case orderLogic bar (side order) (orderType order) of 
+    Just f -> Just Fill { filledPrice = filledPrice f + applyCosts order }
+    Nothing -> Nothing
 
 -- Execution is filling an order based on the current Bar
 orderLogic :: Bar -> Side -> OrderType -> Maybe Fill
@@ -39,3 +40,7 @@ orderLogic bar side (StopLimit s l) = if trigger then orderLogic bar side (Limit
     where trigger = case side of 
             Buy -> maxPrice bar > s
             Sell -> minPrice bar < s
+
+-- TODO: Costs based on order
+applyCosts :: Order -> Price
+applyCosts _ = 0

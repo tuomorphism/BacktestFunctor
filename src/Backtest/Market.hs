@@ -1,4 +1,4 @@
-module Market (Bar, Ticker, Price, Quantity, priceFromRat, openingPrice, closingPrice, maxPrice, minPrice) where
+module Backtest.Market (Bar, Ticker, Price, Quantity, priceFromRat, openingPrice, closingPrice, maxPrice, minPrice) where
 import Data.Fixed 
 
 type Timestamp = Integer
