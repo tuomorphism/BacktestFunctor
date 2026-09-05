@@ -21,5 +21,11 @@ data Bar = Bar
     openingPrice :: Price,
     maxPrice :: Price,
     minPrice :: Price,
+    volume :: Integer,
     name :: CompanyName
   }
+
+mkBar :: Integer -> Price -> Price -> Price -> Price -> Integer -> CompanyName -> Maybe Bar
+mkBar ts open close high low volume name
+  | low <= min open close && max open close <= high = Just (Bar ts close open high low volume name)
+  | otherwise = Nothing

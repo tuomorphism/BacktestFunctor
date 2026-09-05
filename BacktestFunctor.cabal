@@ -25,11 +25,11 @@ library
     exposed-modules:  Backtest.Execution,
                       Backtest.Market,
                       Backtest.Order,
+                      Backtest.Parser
 
     build-depends:    base ^>=4.20.2.0
                     , time
                     , containers
-                    , cassava
                     , bytestring
                     , vector
 
@@ -45,9 +45,10 @@ test-suite spec
     type:               exitcode-stdio-1.0
     hs-source-dirs:     test
     main-is:            Spec.hs
-    other-modules:      Backtest.FillSpec
+    other-modules:      Backtest.ParserSpec
     build-depends:      base ^>=4.20.2.0
                       , BacktestFunctor
                       , hspec
                       , QuickCheck
+                      , time
     build-tool-depends: hspec-discover:hspec-discover

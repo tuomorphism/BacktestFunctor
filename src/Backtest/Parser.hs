@@ -1,4 +1,4 @@
-module Backtest.Parser where
+module Backtest.Parser (day, parseLine, RawBar(RawBar)) where
 import Data.Time (Day, parseTimeM, defaultTimeLocale)
 import Data.List (dropWhileEnd)
 import Data.Char ( isSpace ) 
