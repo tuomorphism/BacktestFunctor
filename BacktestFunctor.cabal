@@ -22,9 +22,10 @@ common lang
 library
     import:           warnings, lang
     hs-source-dirs:   src
-    exposed-modules:  Backtest.Execution
-                      Backtest.Market
-                      Backtest.Order
+    exposed-modules:  Backtest.Execution,
+                      Backtest.Market,
+                      Backtest.Order,
+
     build-depends:    base ^>=4.20.2.0
                     , time
                     , containers
